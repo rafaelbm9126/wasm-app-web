@@ -4,14 +4,11 @@ import './App.css';
 
 import * as wasm from "wasm-game-of-life";
 
-// wasm.greet();
+let form = new wasm.Form("Rafael", 10);
 
-let foo = new wasm.Foo(10);
-
-console.log(foo);
-console.log(foo.get());
-console.log(foo.set(12));
-console.log(foo.get());
+console.log( form );
+console.log( form.get_name );
+console.log( form.get_age );
 
 function App() {
   return (

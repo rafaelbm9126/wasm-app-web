@@ -2,8 +2,8 @@ mod utils;
 
 use wasm_bindgen::prelude::*;
 
-// When the `wee_alloc` feature is enabled, use `wee_alloc` as the global
-// allocator.
+use serde::{ Serialize, Deserialize };
+
 #[cfg(feature = "wee_alloc")]
 #[global_allocator]
 static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
@@ -22,24 +22,41 @@ pub fn greet() {
 }
 
 #[wasm_bindgen]
-pub struct Foo {
-    pub internal: i32,
+#[derive(Serialize, Deserialize, Clone, Debug)]
+pub struct Form {
+    #[wasm_bindgen(skip)]
+    pub name: String,
+    pub age: u8,
 }
 
 #[wasm_bindgen]
-impl Foo {
+impl Form {
 
     #[wasm_bindgen(constructor)]
-    pub fn new (val: i32) -> Foo {
-        Foo { internal: val }
+    pub fn new (val1: String, val2: u8) -> Form {
+        Form { name: val1, age: val2 }
     }
 
-    pub fn get (&self) -> i32 {
-        self.internal
+    #[wasm_bindgen(getter)]
+    pub fn get_name (&self) -> String {
+        log( &*(format!("Internal: {}", self.name )) );
+        self.name.clone()
     }
 
-    pub fn set (&mut self, val: i32) {
-        log( &*(format!("new value: {}", val)) );
-        self.internal = val;
+    #[wasm_bindgen(getter)]
+    pub fn get_age (&self) -> u8 {
+        self.age
+    }
+
+    #[wasm_bindgen(setter)]
+    pub fn set_name (&mut self, val: String) {
+        self.name = val
+    }
+
+    #[wasm_bindgen(setter)]
+    pub fn set_age (&mut self, val: u8) {
+        self.age = val
     }
 }
+
+// log( &*(format!("new value: {}", self.name.clone() )) );

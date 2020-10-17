@@ -1,0 +1,1 @@
+/root/.cache/.wasm-pack/wasm-opt-4d7a65327e9363b7/wasm-opt pkg/wasm_game_of_life_bg.wasm -o pkg/wasm_game_of_life_bg.wasm -O --enable-mutable-globals
